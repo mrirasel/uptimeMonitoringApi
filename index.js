@@ -1,8 +1,35 @@
-const fs = require('fs');
-const read = fs.createReadStream(`${__dirname}/data.txt`);
+/*
+* Title: Uptime Monitoring Api
+* Description: 
+* Author: Rashidul Islam
+* Date: 29/10/2025
+*/
 
-read.on('data', (chunk)=>{
-    console.log(chunk)
-});
+// Dependencies
+const http = require('http');
 
-console.log('hello Now I am reading text from file');
+//app object -module scaffoldine
+const app = {};
+
+//configuration
+app.config = {
+    port:3000,
+};
+ 
+
+//create server
+app.createServer = ()=>{
+    const server =  http.createServer(app.handleReqRes);
+    server.listen(app.config.port, ()=>{
+        console.log(`app run on port ${app.config.port}`)
+    });
+};
+
+//handle request, response 
+app.handleReqRes= (req, res)=>{
+    res.end('Hello Programmer');
+};
+
+app.createServer();
+
+
