@@ -7,7 +7,7 @@
 
 // Dependencies
 const http = require('http');
-const url = require('url');
+const { handleReqRes } = require('./helpers/handleReqRes');
 
 //app object -module scaffoldine
 const app = {};
@@ -27,17 +27,8 @@ app.createServer = ()=>{
 };
 
 //handle request, response 
-app.handleReqRes= (req, res)=>{
+app.handleReqRes = handleReqRes;
 
-    //handle request
-    //parse url
-    const parseUrl = url.parse(req.url, true);
-    const path = parseUrl.pathname;
-    const trimePath = path.replace(/^\/+|\/+$/g, '');
-
-    //response handle
-    res.end('Hello Programmer. This is your own server for this project');
-};
 
 app.createServer();
 
