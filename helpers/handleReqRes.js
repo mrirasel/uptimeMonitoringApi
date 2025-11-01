@@ -39,7 +39,14 @@ handler.handleReqRes= (req, res)=>{
 
     const chosenHandler = routes[trimePath] ? routes[trimePath] : notFoundHandler;
 
-    chosenHandler(requestProperties, (statusCode, payload) => {
+    req.on('data',(buffer)=>{
+        realData.write(buffer);
+    })
+
+    req.on('end', () => {
+        realData += decoder.end();
+
+        chosenHandler(requestProperties, (statusCode, payload) => {
         statusCode = typeof statusCode === 'number' ? statusCode : 500;
         payload = typeof payload === 'object' ? payload : {};
 
@@ -49,15 +56,6 @@ handler.handleReqRes= (req, res)=>{
         res.writeHead(statusCode);
         res.end(payloadString);
     });
-
-    req.on('data',(buffer)=>{
-        realData.write(buffer);
-    })
-
-    req.on('end', () => {
-        realData += decoder.end();
-
-        console.log(realData);
         // response handle
         res.end('Hello world');
     });
